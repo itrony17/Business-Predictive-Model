@@ -10,17 +10,11 @@ from sklearn.ensemble import RandomForestRegressor
 import os
 import streamlit as st
 
-# Securely extract the key from Streamlit's secret layer
-try:
-    openai_key = st.secrets["OPENAI_API_KEY"]
-    
-    # Inject it directly into the environment variable that the OpenAI library looks for
-    os.environ["OPENAI_API_KEY"] = openai_key
-except KeyError:
-    st.error("Please add OPENAI_API_KEY to Advanced Settings on Streamlit Cloud.")
-
-
-
+if "OPENAI_API_KEY" in st.secrets:
+    os.environ["OPENAI_API_KEY"] = st.secrets["OPENAI_API_KEY"]
+else:
+    st.error("Missing OPENAI_API_KEY in Streamlit Cloud Secrets.")
+    st.stop()
 # --- PREMIUM DASHBOARD INTERFACE WRAPPER (DARK CUSTOM DESIGN SKIN) ---
 st.set_page_config(page_title="AI Business Predictor Enterprise", layout="wide")
 
