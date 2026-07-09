@@ -3,3 +3,7 @@ Technical Architecture
 •	Data Handling: Pandas and NumPy (for structured financial forecasting).
 •	Predictive AI: Scikit-learn (for regression/trend lines) or Prophet (for time-series forecasting).
 •	Deep Learning: PyTorch (optional, for complex multi-variable market simulations). 
+
+AI Financial Platform Access
+Email: admin@platform.com
+Password: password123
