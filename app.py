@@ -208,18 +208,24 @@ with col2:
     status_msg = "Healthy (>= 3x)" if ratio >= 3.0 else "Warning (< 3x)" if ratio >= 1.0 else "Critical (< 1x)"
     m_col3.metric("LTV : CAC Ratio Balance", f"{ratio}x", delta=status_msg, delta_color="normal" if ratio >= 3.0 else "inverse")
 
-# --- CHARTS TIMELINE GENERATOR ---
+# --- CHARTS TIMELINE ---
 st.divider()
-profit_trend, revenue_trend, cumulative_trend, cum_profit = [], [], [], 0
+months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+profit_trend, cumulative_trend, cum_profit = [], [], 0
 
 for i in range(12):
     sim_price = price * (1 + (i * 0.02))
     sim_market = marketing * (1 + (i * 0.03))
-    
     m_profit_raw = ai.predict_scenario(sim_price, sim_market, team_size, mat_cost)
     m_profit = float(m_profit_raw.item())
-    m_revenue = (sim_market * 1.6) + (sim_price * 120)
-    
     profit_trend.append(m_profit * curr_factor)
-    revenue_trend.append(m_revenue * curr_factor)
     cum_profit += (m_profit * curr_factor)
+    cumulative_trend.append(cum_profit)
+
+chart_df = pd.DataFrame({f"Monthly Profit ({curr_symbol})": profit_trend, f"Cumulative Runway ({curr_symbol})": cumulative_trend}, index=months)
+chart_col1, chart_col2 = st.columns(2)
+with chart_col1:
+    st.subheader("Monthly AI Net Profit Target")
+    st.line_chart(chart_df[f"Monthly Profit ({curr_symbol})"], color="#2ecc71")
+with chart_col2:
+    st.subheader("Cumulative Capital Runway Position")
