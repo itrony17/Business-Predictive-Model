@@ -7,17 +7,18 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib import colors
 from sklearn.ensemble import RandomForestRegressor
+import os
 import streamlit as st
 
-# Securely fetch your API key using Streamlit's native secret handling
+# Securely extract the key from Streamlit's secret layer
 try:
-    api_key = st.secrets["MY_API_KEY"]
-    st.success("API key loaded securely from cloud secrets!")
+    openai_key = st.secrets["OPENAI_API_KEY"]
+    
+    # Inject it directly into the environment variable that the OpenAI library looks for
+    os.environ["OPENAI_API_KEY"] = openai_key
 except KeyError:
-    st.error("API key not found. Please configure it in your app settings.")
+    st.error("Please add OPENAI_API_KEY to Advanced Settings on Streamlit Cloud.")
 
-st.title("My Secure Streamlit App")
-st.write("Your app logic goes here.")
 
 
 # --- PREMIUM DASHBOARD INTERFACE WRAPPER (DARK CUSTOM DESIGN SKIN) ---
