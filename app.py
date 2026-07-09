@@ -7,6 +7,13 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib import colors
 from sklearn.ensemble import RandomForestRegressor
+import streamlit as st
+
+# Fetch the hidden secret key
+api_key = st.secrets["MY_API_KEY"]
+
+# Use the variable in your application functions
+st.write(f"API key loaded securely!")
 
 # --- PREMIUM DASHBOARD INTERFACE WRAPPER (DARK CUSTOM DESIGN SKIN) ---
 st.set_page_config(page_title="AI Business Predictor Enterprise", layout="wide")
