@@ -9,11 +9,16 @@ from reportlab.lib import colors
 from sklearn.ensemble import RandomForestRegressor
 import streamlit as st
 
-# Fetch the hidden secret key
-api_key = st.secrets["MY_API_KEY"]
+# Securely fetch your API key using Streamlit's native secret handling
+try:
+    api_key = st.secrets["MY_API_KEY"]
+    st.success("API key loaded securely from cloud secrets!")
+except KeyError:
+    st.error("API key not found. Please configure it in your app settings.")
 
-# Use the variable in your application functions
-st.write(f"API key loaded securely!")
+st.title("My Secure Streamlit App")
+st.write("Your app logic goes here.")
+
 
 # --- PREMIUM DASHBOARD INTERFACE WRAPPER (DARK CUSTOM DESIGN SKIN) ---
 st.set_page_config(page_title="AI Business Predictor Enterprise", layout="wide")
